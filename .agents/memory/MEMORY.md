@@ -1,0 +1,1 @@
+- [API codegen quirks](api-codegen-quirks.md) — integer OpenAPI fields currently need numeric schemas for the installed Zod runtime.

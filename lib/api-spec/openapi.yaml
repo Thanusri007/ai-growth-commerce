@@ -1,0 +1,515 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: AI Growth Commerce API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: catalog
+  - name: shopping
+  - name: merchant
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /products:
+    get:
+      operationId: listProducts
+      tags: [catalog]
+      summary: List products
+      parameters:
+        - in: query
+          name: category
+          schema: { type: string }
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: maxPrice
+          schema: { type: number }
+      responses:
+        "200":
+          description: Product list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Product" }
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [catalog]
+      summary: Get one product
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+        "404": { description: Product not found }
+  /ai/chat:
+    post:
+      operationId: chatWithShoppingAgent
+      tags: [shopping]
+      summary: Send a message to the shopping agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ChatInput" }
+      responses:
+        "200":
+          description: Agent response and structured actions
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChatResponse" }
+  /cart:
+    get:
+      operationId: getCart
+      tags: [shopping]
+      summary: Get the current cart
+      responses:
+        "200":
+          description: Cart
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Cart" }
+  /cart/items:
+    post:
+      operationId: addCartItem
+      tags: [shopping]
+      summary: Add a product to the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CartItemInput" }
+      responses:
+        "200":
+          description: Updated cart
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Cart" }
+    delete:
+      operationId: removeCartItem
+      tags: [shopping]
+      summary: Remove a product from the cart
+      parameters:
+        - in: query
+          name: productId
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Updated cart
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Cart" }
+  /checkout:
+    post:
+      operationId: startCheckout
+      tags: [shopping]
+      summary: Start a server-calculated checkout
+      responses:
+        "200":
+          description: Checkout summary
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Checkout" }
+  /checkout/confirm:
+    post:
+      operationId: confirmCheckout
+      tags: [shopping]
+      summary: Explicitly confirm payment intent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ConfirmationInput" }
+      responses:
+        "200":
+          description: Payment session
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaymentSession" }
+  /payments/verify:
+    post:
+      operationId: verifyPayment
+      tags: [shopping]
+      summary: Verify a test payment and create an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PaymentVerificationInput" }
+      responses:
+        "200":
+          description: Verified payment result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OrderResult" }
+  /merchant/summary:
+    get:
+      operationId: getMerchantSummary
+      tags: [merchant]
+      summary: Get merchant revenue summary
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MerchantSummary" }
+  /merchant/opportunities:
+    get:
+      operationId: listOpportunities
+      tags: [merchant]
+      responses:
+        "200":
+          description: Opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Opportunity" }
+  /merchant/approvals:
+    get:
+      operationId: listApprovals
+      tags: [merchant]
+      responses:
+        "200":
+          description: Approvals
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Approval" }
+  /merchant/approvals/{id}:
+    patch:
+      operationId: updateApproval
+      tags: [merchant]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ApprovalUpdate" }
+      responses:
+        "200":
+          description: Updated approval
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Approval" }
+  /merchant/campaigns:
+    get:
+      operationId: listCampaigns
+      tags: [merchant]
+      responses:
+        "200":
+          description: Campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Campaign" }
+    post:
+      operationId: createCampaign
+      tags: [merchant]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CampaignInput" }
+      responses:
+        "201":
+          description: Campaign
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Campaign" }
+  /merchant/policy:
+    get:
+      operationId: getPolicy
+      tags: [merchant]
+      responses:
+        "200":
+          description: Policy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Policy" }
+    patch:
+      operationId: updatePolicy
+      tags: [merchant]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PolicyUpdate" }
+      responses:
+        "200":
+          description: Policy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Policy" }
+  /merchant/audit:
+    get:
+      operationId: listAuditLogs
+      tags: [merchant]
+      responses:
+        "200":
+          description: Audit events
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/AuditLog" }
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Product:
+      type: object
+      required: [id, name, category, description, price, image, stock, rating, specs, tags, useCases]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        category: { type: string }
+        description: { type: string }
+        price: { type: number }
+        image: { type: string }
+        stock: { type: number }
+        rating: { type: number }
+        specs:
+          type: object
+          additionalProperties: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        useCases:
+          type: array
+          items: { type: string }
+    CartItem:
+      type: object
+      required: [product, quantity, lineTotal]
+      properties:
+        product: { $ref: "#/components/schemas/Product" }
+        quantity: { type: number }
+        lineTotal: { type: number }
+    Cart:
+      type: object
+      required: [items, subtotal, itemCount]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/CartItem" }
+        subtotal: { type: number }
+        itemCount: { type: number }
+    CartItemInput:
+      type: object
+      required: [productId]
+      properties:
+        productId: { type: string }
+        quantity: { type: number, minimum: 1, default: 1 }
+    ChatInput:
+      type: object
+      required: [message]
+      properties:
+        message: { type: string, minLength: 1 }
+        history:
+          type: array
+          items: { $ref: "#/components/schemas/ChatMessage" }
+    ChatMessage:
+      type: object
+      required: [role, content]
+      properties:
+        role: { type: string }
+        content: { type: string }
+    ChatResponse:
+      type: object
+      required: [message, products, intent, cart]
+      properties:
+        message: { type: string }
+        products:
+          type: array
+          items: { $ref: "#/components/schemas/Product" }
+        upsell:
+          type: ["object", "null"]
+          properties:
+            product: { $ref: "#/components/schemas/Product" }
+            reason: { type: string }
+        crossSells:
+          type: array
+          items: { $ref: "#/components/schemas/Product" }
+        intent: { type: string }
+        cart: { $ref: "#/components/schemas/Cart" }
+        checkout:
+          type: ["object", "null"]
+          properties:
+            status: { type: string }
+            total: { type: number }
+    Checkout:
+      type: object
+      required: [status, cart, total, requiresConfirmation]
+      properties:
+        status: { type: string }
+        cart: { $ref: "#/components/schemas/Cart" }
+        total: { type: number }
+        requiresConfirmation: { type: boolean }
+    ConfirmationInput:
+      type: object
+      required: [confirmed]
+      properties:
+        confirmed: { type: boolean }
+    PaymentSession:
+      type: object
+      required: [status, paymentId, amount, mode]
+      properties:
+        status: { type: string }
+        paymentId: { type: string }
+        amount: { type: number }
+        mode: { type: string }
+        keyId: { type: ["string", "null"] }
+    PaymentVerificationInput:
+      type: object
+      required: [paymentId, outcome]
+      properties:
+        paymentId: { type: string }
+        outcome: { type: string }
+    OrderResult:
+      type: object
+      required: [status, orderId, total, paymentId]
+      properties:
+        status: { type: string }
+        orderId: { type: string }
+        total: { type: number }
+        paymentId: { type: string }
+    MerchantSummary:
+      type: object
+      required: [revenue, orders, averageOrderValue, conversionRate, upsellRevenue, crossSellRevenue, paymentSuccessRate, revenueSeries]
+      properties:
+        revenue: { type: number }
+        orders: { type: number }
+        averageOrderValue: { type: number }
+        conversionRate: { type: number }
+        upsellRevenue: { type: number }
+        crossSellRevenue: { type: number }
+        paymentSuccessRate: { type: number }
+        revenueSeries:
+          type: array
+          items:
+            type: object
+            required: [label, value]
+            properties:
+              label: { type: string }
+              value: { type: number }
+    Opportunity:
+      type: object
+      required: [id, title, explanation, impact, confidence, status, action]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        explanation: { type: string }
+        impact: { type: number }
+        confidence: { type: number }
+        status: { type: string }
+        action: { type: string }
+    Approval:
+      type: object
+      required: [id, title, detail, type, status, impact]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        detail: { type: string }
+        type: { type: string }
+        status: { type: string }
+        impact: { type: number }
+    ApprovalUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+    Campaign:
+      type: object
+      required: [id, name, type, products, discount, startDate, endDate, status]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        type: { type: string }
+        products:
+          type: array
+          items: { type: string }
+        discount: { type: number }
+        startDate: { type: string }
+        endDate: { type: string }
+        status: { type: string }
+    CampaignInput:
+      type: object
+      required: [name, type, products, discount]
+      properties:
+        name: { type: string }
+        type: { type: string }
+        products:
+          type: array
+          items: { type: string }
+        discount: { type: number, minimum: 0, maximum: 30 }
+    Policy:
+      type: object
+      required: [maxDiscount, maxAutomatedAmount, approvalThreshold, allowedActions, upsellEnabled, crossSellEnabled]
+      properties:
+        maxDiscount: { type: number }
+        maxAutomatedAmount: { type: number }
+        approvalThreshold: { type: number }
+        allowedActions:
+          type: array
+          items: { type: string }
+        upsellEnabled: { type: boolean }
+        crossSellEnabled: { type: boolean }
+    PolicyUpdate:
+      type: object
+      properties:
+        maxDiscount: { type: number }
+        maxAutomatedAmount: { type: number }
+        approvalThreshold: { type: number }
+        allowedActions:
+          type: array
+          items: { type: string }
+        upsellEnabled: { type: boolean }
+        crossSellEnabled: { type: boolean }
+    AuditLog:
+      type: object
+      required: [id, event, actor, timestamp, status, detail]
+      properties:
+        id: { type: string }
+        event: { type: string }
+        actor: { type: string }
+        timestamp: { type: string }
+        status: { type: string }
+        detail: { type: string }
+

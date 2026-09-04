@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AI Growth Commerce"
+description = "An AI-native commerce workspace where shoppers discover products through conversation, complete policy-checked checkout, and merchants turn recommendations into measurable revenue opportunities."
+version = "1.0.0"
+id = "artifacts/ai-growth-commerce"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22298
+
+[services.development]
+run = "pnpm --filter @workspace/ai-growth-commerce run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ai-growth-commerce", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ai-growth-commerce/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22298"
+BASE_PATH = "/"

@@ -1,0 +1,1309 @@
+# 🚀 MASTER BUILD PROMPT — COMPLETE AI GROWTH & AGENTIC COMMERCE PROJECT
+
+## ROLE
+
+Act as the **lead full-stack engineer, AI engineer, payment engineer, database engineer, QA engineer, and UI implementation engineer** for this project.
+
+Your responsibility is to take the EXISTING Replit project and make it a **complete, working, tested hackathon application**.
+
+You are authorized to:
+
+* inspect the repository
+* create files
+* modify files
+* refactor broken code
+* install required packages
+* configure the database
+* create database schemas
+* create seed data
+* implement APIs
+* implement AI logic
+* implement frontend functionality
+* implement payment integration
+* run commands
+* run tests
+* debug errors
+* fix errors
+* verify the application
+
+### DO NOT ONLY GIVE ME INSTRUCTIONS.
+
+You must actually implement the project.
+
+---
+
+# 1. PROJECT GOAL
+
+Build a complete application for:
+
+**Razorpay AI Buildathon 2026 — Track 01: AI Growth & Agentic Commerce**
+
+Core objective:
+
+> Grow the merchant's revenue and make the merchant sellable to AI buyers.
+
+The application must demonstrate **real AI-native commerce**, not a static ecommerce website and not a fake chatbot.
+
+The final system must demonstrate:
+
+**AI shopping → product discovery → recommendation → upsell → cross-sell → cart → conversational checkout → explicit payment confirmation → policy validation → Razorpay Test Mode → payment verification → order → audit trail → merchant revenue intelligence**
+
+---
+
+# 2. EXISTING FIGMA DESIGN IS THE VISUAL SOURCE OF TRUTH
+
+Use the existing Figma design as the visual reference:
+
+https://www.figma.com/make/uxXchFL0cd4UTnmXLOJVzp/AI-Growth-Commerce-Design?t=SebkSpEiJbkruZT8-1
+
+IMPORTANT:
+
+The Figma UI has already been designed.
+
+DO NOT replace it with a generic ecommerce template.
+
+DO NOT redesign the application unnecessarily.
+
+Preserve the existing:
+
+* colors
+* typography
+* spacing
+* layouts
+* cards
+* buttons
+* navigation
+* dashboards
+* components
+* responsive behavior
+* visual hierarchy
+* customer pages
+* merchant pages
+
+First inspect the existing project and identify which files correspond to the Figma screens.
+
+Reuse existing components whenever possible.
+
+---
+
+# 3. FIRST ACTION — FULL PROJECT AUDIT
+
+Before making major changes, inspect the entire repository.
+
+Determine:
+
+* framework
+* package manager
+* folder structure
+* frontend architecture
+* API architecture
+* database
+* Prisma configuration if present
+* existing models
+* existing components
+* customer pages
+* merchant pages
+* AI implementation
+* cart implementation
+* checkout implementation
+* Razorpay implementation
+* authentication if present
+* environment variables
+* existing seed data
+* incomplete functionality
+* TODOs
+* errors
+* broken imports
+* broken routes
+
+Do NOT delete existing working functionality without a clear reason.
+
+Create a short internal implementation checklist and immediately begin implementation.
+
+Do not stop after analysis.
+
+---
+
+# 4. REQUIRED APPLICATION STRUCTURE
+
+The application has TWO major experiences.
+
+## CUSTOMER
+
+Required:
+
+* Homepage
+* Product catalog
+* Product details
+* Cart
+* AI shopping assistant
+* AI recommendations
+* AI upsell
+* AI cross-sell
+* Conversational checkout
+* Razorpay Test Mode payment
+* Payment verification
+* Order confirmation
+* Payment failure handling
+
+## MERCHANT
+
+Required:
+
+* Merchant dashboard
+* Revenue metrics
+* AI revenue intelligence
+* Upsell opportunities
+* Cross-sell opportunities
+* Approval center
+* Campaign management
+* Policy settings
+* Audit trail
+
+---
+
+# 5. CUSTOMER AI SHOPPING AGENT
+
+This is one of the most important features.
+
+The AI assistant MUST actually work.
+
+Do NOT implement a fake chatbot where predefined text is returned regardless of the user's request.
+
+Architecture:
+
+USER MESSAGE
+↓
+CUSTOMER AI UI
+↓
+SERVER API
+↓
+AI SERVICE
+↓
+PRODUCT SEARCH / BUSINESS LOGIC
+↓
+STRUCTURED RESULT
+↓
+CUSTOMER UI
+
+The AI must understand natural-language shopping requests.
+
+Example:
+
+User:
+
+"I need a laptop for coding under ₹80000."
+
+The system must:
+
+1. understand category = laptop
+2. understand use case = coding
+3. understand budget = ₹80,000
+4. search the real product dataset
+5. filter relevant products
+6. recommend suitable products
+7. explain the recommendation
+8. identify a possible upsell
+9. identify useful cross-sells
+10. allow the user to view/add products
+
+---
+
+# 6. CUSTOMER AI MUST MAINTAIN CONTEXT
+
+The conversation must be stateful.
+
+The AI should remember relevant information such as:
+
+* previous messages
+* user's budget
+* product category
+* products previously recommended
+* selected product
+* cart
+* preferences
+* checkout state
+
+Example:
+
+User:
+"I need a laptop under ₹80000."
+
+AI recommends laptops.
+
+User:
+"Which one is better?"
+
+The AI must understand what "which one" refers to.
+
+Do not reset the conversation after every request.
+
+---
+
+# 7. AI TOOLS / ACTIONS
+
+Implement structured actions/tools where appropriate.
+
+Examples:
+
+* search_products
+* get_product
+* compare_products
+* add_to_cart
+* remove_from_cart
+* get_cart
+* calculate_cart_total
+* recommend_upsell
+* recommend_cross_sell
+* start_checkout
+* request_payment_confirmation
+* create_payment
+* verify_payment
+* create_order
+
+The AI can determine which action is relevant.
+
+BUT:
+
+The backend must determine whether the action is actually permitted.
+
+Never allow the LLM to bypass business rules.
+
+---
+
+# 8. PRODUCT SEARCH
+
+Implement real product search.
+
+The user should be able to ask:
+
+* "Show me laptops."
+* "Laptop under ₹80000."
+* "Best phone under ₹30000."
+* "I need something for gaming."
+* "Show me accessories."
+* "Which laptop has more RAM?"
+* "Compare these two."
+
+Search should use the actual database/product dataset.
+
+Use deterministic filtering for:
+
+* category
+* price
+* budget
+* stock
+* attributes
+* tags
+* use case
+
+Use AI for natural-language understanding/reasoning.
+
+---
+
+# 9. PRODUCT DATA
+
+Use the existing database if available.
+
+If insufficient product data exists, create realistic seed data.
+
+Include categories such as:
+
+* laptops
+* smartphones
+* headphones
+* mice
+* keyboards
+* laptop bags
+* USB hubs
+* cooling pads
+* chargers
+* accessories
+
+Each product should have:
+
+* id
+* name
+* category
+* description
+* price
+* image
+* stock
+* rating
+* specifications
+* tags
+* use cases
+
+Use realistic INR prices.
+
+Create enough products to make the AI demo convincing.
+
+---
+
+# 10. UPSELL ENGINE
+
+Implement real upselling.
+
+Upsell means:
+
+CURRENT PRODUCT
+→ MORE EXPENSIVE RELEVANT PRODUCT
+
+Example:
+
+₹70,000 laptop
+→ ₹78,000 laptop with better processor/RAM/storage.
+
+The system should explain WHY the upgrade is relevant.
+
+Do not randomly recommend the most expensive item.
+
+Consider:
+
+* price
+* specifications
+* category
+* use case
+* performance
+* features
+* customer requirements
+
+---
+
+# 11. CROSS-SELL ENGINE
+
+Implement complementary recommendations.
+
+Examples:
+
+Laptop
+→ mouse
+→ laptop bag
+→ USB hub
+→ cooling pad
+
+Phone
+→ case
+→ charger
+→ screen protector
+
+Camera
+→ memory card
+→ camera bag
+→ tripod
+
+Cross-sells must come from the actual product data.
+
+---
+
+# 12. AI → CART INTEGRATION
+
+The AI must be able to trigger real cart actions.
+
+Example:
+
+User:
+
+"Add the laptop to my cart."
+
+The system should:
+
+1. identify the intended product
+2. validate the product
+3. validate stock
+4. add it to the server-side cart
+5. update the frontend cart
+6. show confirmation
+
+Do NOT simply respond:
+
+"Added to cart!"
+
+unless the product was actually added.
+
+---
+
+# 13. CONVERSATIONAL CHECKOUT
+
+Implement a conversational checkout.
+
+Example:
+
+User:
+
+"Checkout my cart."
+
+AI:
+
+"Your cart contains:
+
+Laptop — ₹70,000
+Mouse — ₹1,500
+Bag — ₹2,000
+
+Total: ₹73,500.
+
+Would you like to proceed?"
+
+User:
+
+"Yes."
+
+AI:
+
+"Please confirm payment of ₹73,500."
+
+User:
+
+"Confirm payment."
+
+ONLY AFTER THIS explicit confirmation may payment proceed.
+
+---
+
+# 14. PAYMENT SAFETY
+
+THIS IS CRITICAL.
+
+The AI must NEVER autonomously charge the customer.
+
+Payment flow:
+
+CART
+↓
+CHECKOUT
+↓
+SERVER CALCULATES TOTAL
+↓
+PAYMENT CONFIRMATION REQUESTED
+↓
+CUSTOMER EXPLICITLY CONFIRMS
+↓
+POLICY ENGINE
+↓
+RAZORPAY TEST MODE
+↓
+PAYMENT VERIFICATION
+↓
+ORDER CREATION
+↓
+AUDIT LOG
+
+Never trust a price or total generated by the LLM.
+
+The server/database must calculate the amount.
+
+---
+
+# 15. POLICY ENGINE
+
+Create a deterministic policy engine.
+
+Before financial actions verify:
+
+* explicit confirmation
+* valid cart
+* valid products
+* correct server-side amount
+* action permission
+* merchant policy
+* agent permission
+* transaction limits
+
+If validation fails:
+
+BLOCK THE ACTION.
+
+Return a clear reason.
+
+Example:
+
+"Payment blocked because explicit customer confirmation is required."
+
+The LLM must not be able to bypass the policy engine.
+
+---
+
+# 16. RAZORPAY TEST MODE
+
+Implement Razorpay Test Mode.
+
+Use environment variables.
+
+Never expose secrets to the browser.
+
+Required flow:
+
+1. create payment/order
+2. open checkout
+3. receive payment result
+4. verify payment server-side
+5. mark payment successful only after verification
+6. create order only after successful verification
+
+Never hardcode payment success.
+
+Never create a PAID order before verification.
+
+---
+
+# 17. PAYMENT FAILURE
+
+Implement failure handling.
+
+When payment fails:
+
+* show failure message
+* preserve cart
+* do not mark order paid
+* record PAYMENT_FAILED
+* allow retry
+* maintain clear checkout state
+
+Example:
+
+"Payment failed. Your cart has been preserved. You can retry."
+
+---
+
+# 18. ORDER SYSTEM
+
+Create orders only after successful payment verification.
+
+Order should contain:
+
+* order ID
+* customer
+* items
+* quantities
+* total
+* payment ID
+* status
+* timestamp
+
+Statuses:
+
+* PENDING
+* PAID
+* PAYMENT_FAILED
+* CANCELLED
+
+---
+
+# 19. AUDIT TRAIL
+
+Implement a real audit log.
+
+Record events such as:
+
+* PRODUCT_RECOMMENDED
+* UPSELL_SUGGESTED
+* CROSSSELL_SUGGESTED
+* PRODUCT_ADDED_TO_CART
+* CHECKOUT_STARTED
+* PAYMENT_CONFIRMATION_REQUESTED
+* PAYMENT_CONFIRMED
+* POLICY_CHECKED
+* POLICY_BLOCKED
+* PAYMENT_CREATED
+* PAYMENT_SUCCESS
+* PAYMENT_FAILED
+* ORDER_CREATED
+* APPROVAL_CREATED
+* APPROVAL_APPROVED
+* APPROVAL_REJECTED
+
+Record:
+
+* event
+* actor
+* timestamp
+* status
+* amount when relevant
+* reason/metadata where useful
+
+---
+
+# 20. MERCHANT DASHBOARD
+
+Implement a functional merchant dashboard.
+
+Display meaningful metrics such as:
+
+* total revenue
+* orders
+* average order value
+* conversion rate
+* upsell revenue
+* cross-sell revenue
+* payment success rate
+
+Use real application data where possible.
+
+For demo-only historical data, use stable seeded data.
+
+Do NOT generate different random numbers every page refresh.
+
+---
+
+# 21. AI REVENUE OPPORTUNITIES
+
+Create actionable AI opportunities.
+
+Examples:
+
+"Customers purchasing laptops frequently purchase wireless mice."
+
+"Bundle Laptop + Mouse to increase average order value."
+
+Each opportunity should have:
+
+* title
+* explanation
+* estimated impact
+* confidence
+* status
+* action
+
+---
+
+# 22. APPROVAL CENTER
+
+Implement merchant approvals.
+
+Statuses:
+
+* PENDING
+* APPROVED
+* REJECTED
+
+Example:
+
+AI proposes:
+
+"Create a 10% Laptop + Mouse campaign."
+
+Merchant can:
+
+APPROVE
+
+or
+
+REJECT
+
+Every decision must create an audit record.
+
+---
+
+# 23. CAMPAIGN MANAGEMENT
+
+Implement campaign functionality.
+
+Fields:
+
+* name
+* type
+* products
+* discount
+* start date
+* end date
+* status
+
+Apply policy restrictions.
+
+Do not allow unlimited or unsafe discounts.
+
+---
+
+# 24. POLICY SETTINGS
+
+Merchant can configure:
+
+* maximum discount
+* maximum automated transaction amount
+* approval threshold
+* allowed AI actions
+* upsell enabled/disabled
+* cross-sell enabled/disabled
+
+The backend policy engine must actually respect these settings.
+
+---
+
+# 25. DATABASE
+
+Use the existing database if already configured.
+
+If PostgreSQL + Prisma is already present, continue using it.
+
+Models should cover:
+
+* User
+* Merchant
+* Product
+* Cart
+* CartItem
+* Order
+* OrderItem
+* Payment
+* Conversation
+* ConversationMessage
+* Opportunity
+* Approval
+* Campaign
+* Policy
+* AuditLog
+
+Do not destroy existing production/demo data unnecessarily.
+
+Create safe migrations.
+
+Seed realistic demo data.
+
+---
+
+# 26. GEMINI
+
+Use Gemini server-side for AI functionality.
+
+Keep:
+
+GEMINI_API_KEY
+
+server-side only.
+
+Never expose it in client-side code.
+
+If Gemini is unavailable:
+
+DO NOT BREAK THE APPLICATION.
+
+Implement deterministic fallback behavior for:
+
+* product search
+* recommendations
+* upsell
+* cross-sell
+* cart actions
+
+The core commerce flow must remain usable.
+
+---
+
+# 27. API ARCHITECTURE
+
+Inspect the existing API structure.
+
+Reuse existing endpoints where sensible.
+
+Implement server functionality for:
+
+* products
+* search
+* AI chat
+* recommendations
+* cart
+* checkout
+* payments
+* payment verification
+* orders
+* merchant dashboard
+* opportunities
+* approvals
+* campaigns
+* policies
+* audit logs
+
+Validate all inputs.
+
+Never trust client-side:
+
+* prices
+* totals
+* payment amount
+* permissions
+* policy decisions
+
+---
+
+# 28. SECURITY
+
+Never expose:
+
+* Gemini secret
+* Razorpay secret
+* database credentials
+
+Never place secrets in frontend code.
+
+Use environment variables.
+
+Validate server inputs.
+
+Do not allow arbitrary AI-generated SQL.
+
+Do not allow AI to directly bypass backend business logic.
+
+---
+
+# 29. UI
+
+Preserve the existing Figma UI.
+
+Make existing buttons actually work.
+
+Make navigation functional.
+
+Make:
+
+* product cards
+* search
+* AI assistant
+* add-to-cart
+* cart
+* checkout
+* payment
+* dashboard
+* approvals
+* campaigns
+* policy settings
+* audit logs
+
+functional.
+
+Do not create a completely different design.
+
+---
+
+# 30. LOADING / ERROR / EMPTY STATES
+
+Every asynchronous operation must have proper:
+
+* loading state
+* success state
+* error state
+
+Implement this for:
+
+* AI
+* search
+* cart
+* checkout
+* payment
+* payment verification
+* merchant actions
+
+Also implement empty states for:
+
+* empty cart
+* no search results
+* no opportunities
+* no approvals
+* no orders
+* AI failure
+
+---
+
+# 31. RESPONSIVE DESIGN
+
+Verify:
+
+* desktop
+* tablet
+* mobile
+
+Do not break the existing Figma design while making it responsive.
+
+---
+
+# 32. EXACT CUSTOMER TEST
+
+After implementation, manually test this exact flow:
+
+### Test A
+
+"Hi"
+
+Expected:
+Natural AI response.
+
+### Test B
+
+"I need a laptop for coding under ₹80000."
+
+Expected:
+Actual products returned.
+
+### Test C
+
+"Which one is better?"
+
+Expected:
+AI remembers previous recommendations.
+
+### Test D
+
+"What accessories should I buy?"
+
+Expected:
+Relevant cross-sells.
+
+### Test E
+
+"Add the laptop to my cart."
+
+Expected:
+Real cart update.
+
+### Test F
+
+"Checkout my cart."
+
+Expected:
+Checkout summary.
+
+### Test G
+
+"Yes."
+
+Expected:
+Payment confirmation request.
+
+### Test H
+
+"Confirm payment."
+
+Expected:
+Policy validation → Razorpay Test Mode.
+
+### Test I
+
+Successful test payment.
+
+Expected:
+Payment verified → order created → confirmation shown → audit event recorded.
+
+---
+
+# 33. FAILURE TEST
+
+Test a failed payment.
+
+Expected:
+
+* payment failure displayed
+* cart preserved
+* order not marked PAID
+* PAYMENT_FAILED logged
+* retry available
+
+---
+
+# 34. MERCHANT TEST
+
+Verify:
+
+1. dashboard opens
+2. metrics appear
+3. opportunities appear
+4. upsell opportunity works
+5. cross-sell opportunity works
+6. approval can be approved
+7. approval can be rejected
+8. campaigns work
+9. policy settings work
+10. audit trail shows events
+
+---
+
+# 35. AUTOMATED VERIFICATION
+
+Run the project's appropriate:
+
+* install
+* typecheck
+* lint
+* build
+* tests
+
+If tests fail:
+
+DO NOT IGNORE THEM.
+
+Read the error.
+
+Find the root cause.
+
+Fix it.
+
+Run again.
+
+Continue until passing or until there is a genuine external dependency/platform blocker.
+
+---
+
+# 36. DEVELOPMENT PRIORITY
+
+Work in this exact order:
+
+### PHASE 1
+
+Audit existing project.
+
+### PHASE 2
+
+Fix build/runtime errors.
+
+### PHASE 3
+
+Complete customer UI functionality.
+
+### PHASE 4
+
+Complete product database/data.
+
+### PHASE 5
+
+Complete AI shopping agent.
+
+### PHASE 6
+
+Connect AI to real products.
+
+### PHASE 7
+
+Implement upsell.
+
+### PHASE 8
+
+Implement cross-sell.
+
+### PHASE 9
+
+Connect AI actions to cart.
+
+### PHASE 10
+
+Implement conversational checkout.
+
+### PHASE 11
+
+Implement policy engine.
+
+### PHASE 12
+
+Implement Razorpay Test Mode.
+
+### PHASE 13
+
+Implement payment verification.
+
+### PHASE 14
+
+Implement orders.
+
+### PHASE 15
+
+Implement audit trail.
+
+### PHASE 16
+
+Complete merchant dashboard.
+
+### PHASE 17
+
+Complete opportunities.
+
+### PHASE 18
+
+Complete approvals.
+
+### PHASE 19
+
+Complete campaigns.
+
+### PHASE 20
+
+Complete policy settings.
+
+### PHASE 21
+
+Responsive/UI polish.
+
+### PHASE 22
+
+Full end-to-end testing.
+
+---
+
+# 37. DO NOT STOP EARLY
+
+The following are NOT completion:
+
+* creating a plan
+* creating folders
+* creating UI
+* creating database models
+* creating API endpoints
+* connecting Gemini
+* connecting Razorpay
+* compiling one page
+* saying "the core functionality is ready"
+
+The project is complete ONLY when the end-to-end workflow works.
+
+---
+
+# 38. IF REPLIT INTERRUPTS EXECUTION
+
+IMPORTANT:
+
+You cannot override Replit's platform-level usage, context, or execution limits.
+
+If execution is interrupted by the platform:
+
+DO NOT claim the project is complete.
+
+Before the session ends, create/update:
+
+`PROGRESS.md`
+
+Include:
+
+* completed phases
+* incomplete phases
+* files changed
+* current errors
+* commands run
+* tests passed
+* tests failed
+* database changes
+* environment variables required
+* exact next task
+* exact next file(s) to modify
+
+Make the project fully resumable.
+
+When execution becomes available again:
+
+1. read `PROGRESS.md`
+2. inspect the current repository state
+3. continue from the last incomplete phase
+4. do NOT restart from scratch
+5. do NOT duplicate existing functionality
+
+---
+
+# 39. FINAL QUALITY CHECK
+
+Before saying "complete", verify every item:
+
+[ ] Project starts
+
+[ ] Build passes
+
+[ ] Customer homepage works
+
+[ ] Product catalog works
+
+[ ] Product details work
+
+[ ] Product search works
+
+[ ] AI assistant works
+
+[ ] AI understands natural language
+
+[ ] AI uses actual product data
+
+[ ] Conversation context works
+
+[ ] Upsell works
+
+[ ] Cross-sell works
+
+[ ] AI add-to-cart works
+
+[ ] Cart works
+
+[ ] Checkout works
+
+[ ] Explicit confirmation required
+
+[ ] Policy engine works
+
+[ ] Razorpay Test Mode works
+
+[ ] Payment verification works
+
+[ ] Order creation works
+
+[ ] Payment failure works
+
+[ ] Cart preserved after failure
+
+[ ] Audit trail works
+
+[ ] Merchant dashboard works
+
+[ ] Revenue metrics work
+
+[ ] AI opportunities work
+
+[ ] Approval center works
+
+[ ] Campaign management works
+
+[ ] Policy settings work
+
+[ ] Mobile UI works
+
+[ ] Error states work
+
+[ ] Loading states work
+
+[ ] Demo data exists
+
+[ ] Customer end-to-end flow tested
+
+[ ] Failure flow tested
+
+[ ] Merchant flow tested
+
+---
+
+# 40. FINAL INSTRUCTION
+
+START NOW.
+
+Do not ask me to manually implement the missing pieces unless a genuine external credential or platform permission is required.
+
+Inspect the existing repository first.
+
+Then implement.
+
+Then run.
+
+Then test.
+
+Then debug.
+
+Then continue.
+
+Use the existing Figma design.
+
+Reuse existing code when it is good.
+
+Fix existing code when it is broken.
+
+Do not rebuild unnecessarily.
+
+Do not stop after producing a plan.
+
+Do not falsely claim completion.
+
+The objective is a **working, demonstrable, production-quality hackathon application**, not a collection of unfinished screens.
+
+CONTINUE IMPLEMENTING UNTIL THE DEFINITION OF DONE IS SATISFIED.
+
+If a platform limit interrupts execution, save exact progress in `PROGRESS.md` and make the repository ready to resume without losing work.
